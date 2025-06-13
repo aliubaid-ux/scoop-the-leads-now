@@ -1,11 +1,63 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState, useEffect } from 'react';
+import { Header } from '../components/Header';
+import { HashtagSelector } from '../components/HashtagSelector';
+import { SearchBuilder } from '../components/SearchBuilder';
+import { SearchPresets } from '../components/SearchPresets';
+import { PitchTemplates } from '../components/PitchTemplates';
 
 const Index = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
+  const [customKeywords, setCustomKeywords] = useState('');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('journoscoop-theme');
+    if (savedTheme === 'dark') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('journoscoop-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('journoscoop-theme', 'light');
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          {/* Left Column - Hashtag Selection */}
+          <div className="lg:col-span-2 space-y-6">
+            <HashtagSelector 
+              selectedHashtags={selectedHashtags}
+              setSelectedHashtags={setSelectedHashtags}
+            />
+            <SearchBuilder 
+              selectedHashtags={selectedHashtags}
+              customKeywords={customKeywords}
+              setCustomKeywords={setCustomKeywords}
+            />
+          </div>
+          
+          {/* Right Column - Presets & Templates */}
+          <div className="space-y-6">
+            <SearchPresets 
+              selectedHashtags={selectedHashtags}
+              customKeywords={customKeywords}
+            />
+            <PitchTemplates />
+          </div>
+        </div>
       </div>
     </div>
   );
