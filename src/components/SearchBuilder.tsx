@@ -86,6 +86,14 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
     return searchTerms.join(' ');
   };
 
+  const handleUseORChange = (checked: boolean | "indeterminate") => {
+    setUseOR(checked === true);
+  };
+
+  const handleIncludeLiveChange = (checked: boolean | "indeterminate") => {
+    setIncludeLive(checked === true);
+  };
+
   return (
     <Card className="shadow-lg border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm">
       <CardHeader>
@@ -115,7 +123,7 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
             <Checkbox
               id="use-or"
               checked={useOR}
-              onCheckedChange={setUseOR}
+              onCheckedChange={handleUseORChange}
             />
             <label htmlFor="use-or" className="text-sm text-gray-700 dark:text-gray-300">
               Use OR logic for hashtags (finds tweets with any selected hashtag)
@@ -126,7 +134,7 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
             <Checkbox
               id="include-live"
               checked={includeLive}
-              onCheckedChange={setIncludeLive}
+              onCheckedChange={handleIncludeLiveChange}
             />
             <label htmlFor="include-live" className="text-sm text-gray-700 dark:text-gray-300">
               Show latest tweets first (&f=live)
