@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
 import { AdvancedJournalistRequest } from '../components/AdvancedJournalistRequest';
-// Removed PopularTwitterAccounts and SearchBuilder imports
+import { SocialSharePanel } from "../components/SocialSharePanel";
+import { EmailSignup } from "../components/EmailSignup";
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -39,6 +39,12 @@ const Index = () => {
         {/* Journalist Search Tools section right below the header */}
         <div className="flex flex-col gap-8 mt-4 w-full">
           <AdvancedJournalistRequest />
+        </div>
+
+        {/* Social Sharing + Email Signup Panel */}
+        <div className="flex flex-col gap-6 mt-6 w-full">
+          <SocialSharePanel />
+          <EmailSignup />
         </div>
 
         <div className="flex flex-col gap-8 mt-8 w-full">
