@@ -8,30 +8,48 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 
 const CATEGORY_PHRASES: Record<string, string[]> = {
   "Journalist Requests": [
+    "request for comment",
     "looking for sources",
+    "requesting expert input",
     "journalist request",
+    "seeking quotes from experts",
+    "looking to speak to",
     "can anyone comment",
-    "quotes wanted",
     "press request",
-    "media request"
+    "media request",
+    "seeking expert reaction",
+    "seeking opinions from experts",
+    "looking for expert insights",
+    "interviewing experts for story",
+    "looking for story sources"
   ],
-  "Podcast / Interview Guest Opportunities": [
-    "looking for podcast guests",
-    "guest needed",
+  "Source Alerts": [
+    "call for sources",
+    "need experts",
+    "expert opinion needed",
+    "searching for specialist",
+    "looking for case studies",
+    "seeking real-world examples",
+    "source needed for article",
+    "looking for industry insiders"
+  ],
+  "Academic/Scientific Calls": [
+    "seeking academic input",
+    "looking for researchers",
+    "seeking scientific experts",
+    "request for academic experts",
+    "need scientific comment"
+  ],
+  "Healthcare and Medical Calls": [
+    "medical expert needed",
+    "looking for doctors",
+    "need healthcare perspective",
+    "searching for medical opinion"
+  ],
+  "Cautious Audience (sometimes self-promo)": [
     "live interview opportunity",
     "be my podcast guest",
-    "interview guest wanted"
-  ],
-  "Seeking Expert Opinions": [
-    "seeking expert opinion",
-    "need expert advice",
-    "insights from experts",
-    "comment from specialist"
-  ],
-  "Personal Stories Requests": [
-    "share your story",
-    "personal story wanted",
-    "featured story opportunity"
+    "podcast guest wanted"
   ]
 };
 

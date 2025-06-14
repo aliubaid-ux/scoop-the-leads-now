@@ -102,6 +102,9 @@ export const SearchBuilder = ({
     setIncludeLive(checked === true);
   };
 
+  // Additional spam-flagging/anti-spam keywords helper
+  const hasNegative = /\s-\w+/.test(customKeywords) || customKeywords.trim().startsWith('-');
+
   return (
     <Card className="shadow-lg border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm">
       <CardHeader>
@@ -116,7 +119,7 @@ export const SearchBuilder = ({
             Custom Keywords (comma-separated)
           </label>
           <Textarea
-            placeholder='e.g., "looking for guest", expert needed, interview opportunity'
+            placeholder='e.g., "request for comment", -seo, -guestpost'
             value={customKeywords}
             onChange={(e) => setCustomKeywords(e.target.value)}
             className="min-h-[80px]"
@@ -126,6 +129,17 @@ export const SearchBuilder = ({
           </p>
         </div>
 
+        {/* Anti-spam and negative keyword helper */}
+        <div className={`p-3 rounded-lg text-xs ${hasNegative ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-200' : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-100'}`}>
+          {hasNegative ? (
+            <>✔️ Anti-spam negative keywords detected: results will be cleaner!</>
+          ) : (
+            <>🛡️ <b>Tip:</b> To filter out spam or self-promotional results, add keywords like <span className="font-mono text-blue-800 dark:text-blue-200">-seo, -guestpost, -contentmarketing</span> to your custom keywords.<br />
+            Example: <span className="font-mono text-blue-800 dark:text-blue-200">journalist request, -seo, -promo</span>
+            </>
+          )}
+        </div>
+        
         <div className="space-y-3">
           <div className="flex items-center space-x-2">
             <Checkbox

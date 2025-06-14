@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -6,36 +5,28 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-// ======================
-// UPDATED HASHTAG GROUPS
-// ======================
+// ===============================
+// CURATED HIGH-QUALITY HASHTAG GROUPS
+// ===============================
 const HASHTAG_GROUPS: Record<string, string[]> = {
-  'Journalist Requests': [
+  'Journalist Requests (Quality)': [
     '#journorequest', '#journorequests', '#prrequest', '#mediarequest',
-    '#requestforsources', '#journalistrequest', '#helpareporter',
-    '#sourcewanted', '#quoterequest', '#callforsources', '#interviewrequest',
-    '#expertsneeded', '#sourcealert', '#pressrequest', '#urgentrequest',
-    '#requestforcomment', '#needquotes', '#needexperts'
+    '#requestforsources', '#journalistrequest', '#callforsources', '#sourcewanted',
+    '#quoterequest', '#pressrequest', '#requestforcomment', '#needquotes',
+    '#needexperts'
   ],
-  'Podcast / Interview Guest Opportunities': [
-    '#podcastguest', '#guestinterview', '#guestneeded',
-    '#interviewguest', '#youtubeguest', '#guestcallout',
-    '#interviewopportunity', '#podcastinterview', '#expertinterview',
-    '#guestspot', '#liveinterview', '#twitterspaceguest', '#linkedinliveguest'
+  'Requests for Comment': [
+    '#requestforcomment', '#callforcomment', '#expertcomment', '#commentrequest'
   ],
-  'Seeking Expert Opinions': [
-    '#expertopinion', '#expertinsight', '#callforexperts', '#lookingforexperts',
-    '#opinionwanted', '#thoughtleadercallout', '#commentrequest',
-    '#casestudyrequest', '#addyourvoice'
+  'Source Calls by Topic': [
+    '#expertsneeded', '#sourcealert', '#techjournorequest', '#sciencejourno', '#phdresearch',
+    '#startupfounders', '#medialookout'
   ],
-  'Personal Stories Requests': [
-    '#personalstoriesneeded', '#shareyourstory', '#storyrequest'
+  'Podcast / Media Guest (Caution)': [
+    '#podcastguest', '#guestinterview', '#interviewguest', '#guestneeded',
+    '#interviewopportunity', '#guestspot', '#liveinterview',
+    '#linkedinliveguest', '#twitterspaceguest'
   ],
-  'Media Discovery': [
-    '#journalist', '#editorialrequest', '#freelancejournalist', '#mediarelations',
-    '#haroreplacement'
-  ],
-  // New high-quality/curated categories
   'Science & Academia Calls': [
     '#sciencerequest', '#academicresearch', '#scientistcallout', '#phdresearch', '#professorrequest'
   ],
@@ -44,7 +35,11 @@ const HASHTAG_GROUPS: Record<string, string[]> = {
   ],
   'Tech & Startup Requests': [
     '#startuplookout', '#techjournorequest', '#startupfounders', '#founderrequest', '#saasrequest', '#vcrequest'
-  ]
+  ],
+  'Media Industry / Discovery': [
+    '#journalist', '#editorialrequest', '#freelancejournalist', '#mediarelations'
+    // '#haroreplacement', // removed, often spammy
+  ],
 };
 
 interface HashtagSelectorProps {
