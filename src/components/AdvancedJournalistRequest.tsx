@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 const advSearches = [
   {
-    label: "Advanced Journalist Queries",
+    label: "Journalist Power Queries",
     url: "https://x.com/search?q=(%23journorequest%20OR%20%23prrequest%20OR%20%23mediarequest%20OR%20%22looking%20for%20a%20source%22%20OR%20%22working%20on%20a%20story%22)%20(%22I%27m%20a%20journalist%22%20OR%20%22I%27m%20a%20writer%22)&src=typed_query&f=live",
     description: 'Find tweets by journalists and writers using a combination of hashtags and keywords.',
   },
@@ -26,7 +26,7 @@ export function AdvancedJournalistRequest() {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Card className="shadow border-0 bg-slate-50/80 dark:bg-gray-900/75 backdrop-blur max-w-2xl mx-auto">
+    <Card className="shadow border-0 bg-slate-50/80 dark:bg-gray-900/75 backdrop-blur max-w-2xl mx-auto my-2">
       <CardHeader
         onClick={() => setExpanded((v) => !v)}
         className="pb-2 cursor-pointer flex items-center gap-2 select-none hover:bg-blue-50/70 dark:hover:bg-blue-950/30 transition rounded-t"
@@ -42,10 +42,10 @@ export function AdvancedJournalistRequest() {
           <ExternalLink className="h-5 w-5 mt-0.5 text-blue-600 dark:text-blue-300 flex-shrink-0" />
           <div>
             <CardTitle className="text-base font-semibold text-gray-800 dark:text-gray-100">
-              Advanced Journalist Request
+              Journalist Search Tools
             </CardTitle>
             <CardDescription className="text-xs max-w-md text-gray-600 dark:text-gray-400">
-              Power searches and curated journalist feeds. Use these links for specialized media requests and more in-depth query results.
+              Power journalist searches and curated media feeds. Use these links for in-depth media sourcing and story leads.
             </CardDescription>
           </div>
         </div>
