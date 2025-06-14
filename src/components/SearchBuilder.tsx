@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,17 +9,23 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 interface SearchBuilderProps {
   selectedHashtags: string[];
+  selectedPhrases: string[];
   customKeywords: string;
   setCustomKeywords: (keywords: string) => void;
 }
 
-export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywords }: SearchBuilderProps) => {
+export const SearchBuilder = ({
+  selectedHashtags,
+  selectedPhrases,
+  customKeywords,
+  setCustomKeywords
+}: SearchBuilderProps) => {
   const [useOR, setUseOR] = useState(true);
   const [includeLive, setIncludeLive] = useState(true);
 
   const buildSearchURL = () => {
     const searchTerms = [];
-    
+
     // Add hashtags
     if (selectedHashtags.length > 0) {
       if (useOR && selectedHashtags.length > 1) {
@@ -29,7 +34,12 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
         searchTerms.push(...selectedHashtags);
       }
     }
-    
+    // Add selected natural phrases as quoted strings
+    if (selectedPhrases.length > 0) {
+      selectedPhrases.forEach(phrase => {
+        searchTerms.push(`"${phrase}"`);
+      });
+    }
     // Add custom keywords
     if (customKeywords.trim()) {
       const keywords = customKeywords.split(',').map(k => k.trim()).filter(k => k);
@@ -41,16 +51,14 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
         }
       });
     }
-    
+
     if (searchTerms.length === 0) return '';
-    
+
     const query = encodeURIComponent(searchTerms.join(' '));
     let url = `https://twitter.com/search?q=${query}`;
-    
     if (includeLive) {
       url += '&f=live';
     }
-    
     return url;
   };
 
@@ -63,7 +71,6 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
 
   const previewQuery = () => {
     const searchTerms = [];
-    
     if (selectedHashtags.length > 0) {
       if (useOR && selectedHashtags.length > 1) {
         searchTerms.push(`(${selectedHashtags.join(' OR ')})`);
@@ -71,7 +78,9 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
         searchTerms.push(...selectedHashtags);
       }
     }
-    
+    if (selectedPhrases.length > 0) {
+      selectedPhrases.forEach(phrase => searchTerms.push(`"${phrase}"`));
+    }
     if (customKeywords.trim()) {
       const keywords = customKeywords.split(',').map(k => k.trim()).filter(k => k);
       keywords.forEach(keyword => {
@@ -82,7 +91,6 @@ export const SearchBuilder = ({ selectedHashtags, customKeywords, setCustomKeywo
         }
       });
     }
-    
     return searchTerms.join(' ');
   };
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,16 +10,26 @@ interface SearchPreset {
   id: string;
   name: string;
   hashtags: string[];
+  phrases: string[];
   keywords: string;
   lastUsed: string;
 }
 
 interface SearchPresetsProps {
   selectedHashtags: string[];
+  selectedPhrases: string[];
+  setSelectedHashtags: (hashtags: string[]) => void;
+  setSelectedPhrases: (phrases: string[]) => void;
   customKeywords: string;
 }
 
-export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPresetsProps) => {
+export const SearchPresets = ({
+  selectedHashtags,
+  selectedPhrases,
+  setSelectedHashtags,
+  setSelectedPhrases,
+  customKeywords
+}: SearchPresetsProps) => {
   const [presets, setPresets] = useState<SearchPreset[]>([]);
   const [newPresetName, setNewPresetName] = useState('');
   const { toast } = useToast();
@@ -28,7 +37,13 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
   useEffect(() => {
     const savedPresets = localStorage.getItem('journoscoop-presets');
     if (savedPresets) {
-      setPresets(JSON.parse(savedPresets));
+      // Update for backward compatibility (no phrases array in old presets)
+      const parsed = JSON.parse(savedPresets);
+      const withPhrases = parsed.map((p: any) => ({
+        ...p,
+        phrases: Array.isArray(p.phrases) ? p.phrases : [],
+      }));
+      setPresets(withPhrases);
     }
   }, []);
 
@@ -47,10 +62,14 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
       return;
     }
 
-    if (selectedHashtags.length === 0 && !customKeywords.trim()) {
+    if (
+      selectedHashtags.length === 0 &&
+      selectedPhrases.length === 0 &&
+      !customKeywords.trim()
+    ) {
       toast({
         title: "Nothing to save",
-        description: "Please select hashtags or add keywords before saving.",
+        description: "Please select hashtags, phrases or add keywords before saving.",
         variant: "destructive"
       });
       return;
@@ -60,6 +79,7 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
       id: Date.now().toString(),
       name: newPresetName.trim(),
       hashtags: selectedHashtags,
+      phrases: selectedPhrases,
       keywords: customKeywords,
       lastUsed: new Date().toISOString()
     };
@@ -67,7 +87,7 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
     const updatedPresets = [...presets, newPreset];
     savePresets(updatedPresets);
     setNewPresetName('');
-    
+
     toast({
       title: "Preset saved!",
       description: `"${newPreset.name}" has been saved to your presets.`
@@ -77,7 +97,6 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
   const deletePreset = (id: string) => {
     const updatedPresets = presets.filter(p => p.id !== id);
     savePresets(updatedPresets);
-    
     toast({
       title: "Preset deleted",
       description: "The search preset has been removed."
@@ -86,7 +105,6 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
 
   const openPresetSearch = (preset: SearchPreset) => {
     const searchTerms = [];
-    
     if (preset.hashtags.length > 0) {
       if (preset.hashtags.length > 1) {
         searchTerms.push(`(${preset.hashtags.join(' OR ')})`);
@@ -94,9 +112,13 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
         searchTerms.push(...preset.hashtags);
       }
     }
-    
-    if (preset.keywords.trim()) {
-      const keywords = preset.keywords.split(',').map(k => k.trim()).filter(k => k);
+    if (preset.phrases && preset.phrases.length > 0) {
+      preset.phrases.forEach(phrase => {
+        searchTerms.push(`"${phrase}"`);
+      });
+    }
+    if (preset.keywords && preset.keywords.trim()) {
+      const keywords = preset.keywords.split(',').map((k: string) => k.trim()).filter((k: string) => k);
       keywords.forEach(keyword => {
         if (keyword.includes(' ')) {
           searchTerms.push(`"${keyword}"`);
@@ -105,17 +127,20 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
         }
       });
     }
-    
+
     const query = encodeURIComponent(searchTerms.join(' '));
     const url = `https://twitter.com/search?q=${query}&f=live`;
-    
+
     // Update last used
-    const updatedPresets = presets.map(p => 
+    const updatedPresets = presets.map(p =>
       p.id === preset.id ? { ...p, lastUsed: new Date().toISOString() } : p
     );
     savePresets(updatedPresets);
-    
+
     window.open(url, '_blank');
+    // Also update selected phrases in app state
+    setSelectedHashtags(preset.hashtags);
+    setSelectedPhrases(preset.phrases ?? []);
   };
 
   const formatDate = (dateString: string) => {
@@ -145,7 +170,6 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
             Save Current Search
           </Button>
         </div>
-
         {presets.length > 0 && (
           <div className="space-y-3">
             {presets.map((preset) => (
@@ -163,7 +187,6 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-                
                 <div className="space-y-2 mb-3">
                   {preset.hashtags.length > 0 && (
                     <div className="flex flex-wrap gap-1">
@@ -179,14 +202,26 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
                       )}
                     </div>
                   )}
-                  
+                  {preset.phrases && preset.phrases.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {preset.phrases.slice(0, 2).map((phrase) => (
+                        <Badge key={phrase} variant="outline" className="text-xs">
+                          "{phrase}"
+                        </Badge>
+                      ))}
+                      {preset.phrases.length > 2 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{preset.phrases.length - 2} more
+                        </Badge>
+                      )}
+                    </div>
+                  )}
                   {preset.keywords && (
                     <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
                       Keywords: {preset.keywords}
                     </p>
                   )}
                 </div>
-                
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-1 text-xs text-gray-500">
                     <Clock className="h-3 w-3" />
@@ -205,7 +240,6 @@ export const SearchPresets = ({ selectedHashtags, customKeywords }: SearchPreset
             ))}
           </div>
         )}
-
         {presets.length === 0 && (
           <p className="text-sm text-gray-500 text-center py-4">
             No saved presets yet. Create your first search preset above!
