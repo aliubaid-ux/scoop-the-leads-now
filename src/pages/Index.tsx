@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
@@ -6,6 +5,7 @@ import { SearchBuilder } from '../components/SearchBuilder';
 import { SearchPresets } from '../components/SearchPresets';
 import { PitchTemplates } from '../components/PitchTemplates';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
+import { AdditionalSearches } from '../components/AdditionalSearches';
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -64,6 +64,7 @@ const Index = () => {
               setSelectedPhrases={setSelectedPhrases}
               customKeywords={customKeywords}
             />
+            <AdditionalSearches />
             <PitchTemplates />
           </div>
         </div>
