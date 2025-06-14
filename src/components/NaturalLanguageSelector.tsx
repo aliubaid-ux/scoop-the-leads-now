@@ -10,46 +10,21 @@ const CATEGORY_PHRASES: Record<string, string[]> = {
   "Journalist Requests": [
     "request for comment",
     "looking for sources",
-    "requesting expert input",
     "journalist request",
-    "seeking quotes from experts",
-    "looking to speak to",
-    "can anyone comment",
     "press request",
     "media request",
-    "seeking expert reaction",
-    "seeking opinions from experts",
-    "looking for expert insights",
-    "interviewing experts for story",
-    "looking for story sources"
+    "seeking opinions from experts"
   ],
   "Source Alerts": [
     "call for sources",
     "need experts",
-    "expert opinion needed",
-    "searching for specialist",
-    "looking for case studies",
-    "seeking real-world examples",
     "source needed for article",
     "looking for industry insiders"
-  ],
-  "Academic/Scientific Calls": [
-    "seeking academic input",
-    "looking for researchers",
-    "seeking scientific experts",
-    "request for academic experts",
-    "need scientific comment"
   ],
   "Healthcare and Medical Calls": [
     "medical expert needed",
     "looking for doctors",
-    "need healthcare perspective",
-    "searching for medical opinion"
-  ],
-  "Cautious Audience (sometimes self-promo)": [
-    "live interview opportunity",
-    "be my podcast guest",
-    "podcast guest wanted"
+    "need healthcare perspective"
   ]
 };
 
@@ -95,7 +70,6 @@ export const NaturalLanguageSelector = ({ selectedPhrases, setSelectedPhrases }:
   const anySelected = (groupPhrases: string[]) =>
     groupPhrases.some(phrase => selectedPhrases.includes(phrase));
 
-  // -- New: Show group-level actionable search button
   const buildGroupSearchUrl = (phrases: string[]) => {
     if (!phrases.length) return "#";
     let query = phrases.map(p => `"${p}"`).join(' OR ');
@@ -203,7 +177,6 @@ export const NaturalLanguageSelector = ({ selectedPhrases, setSelectedPhrases }:
                   </div>
                 )}
               </div>
-              {/* --- Group search action: show if this group has any selection --- */}
               {hasGroupSelection && (
                 <div className="flex justify-end mt-4">
                   <a

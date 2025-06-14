@@ -4,7 +4,7 @@ import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
 import { SearchBuilder } from '../components/SearchBuilder';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
-import { AdditionalSearches } from '../components/AdditionalSearches';
+import { PopularTwitterAccounts } from '../components/PopularTwitterAccounts';
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -37,7 +37,6 @@ const Index = () => {
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
         <div className="flex flex-col gap-8 mt-8 w-full">
-          {/* Phrase and Hashtag Selection, and Main Search */}
           <HashtagSelector 
             selectedHashtags={selectedHashtags}
             setSelectedHashtags={setSelectedHashtags}
@@ -52,7 +51,7 @@ const Index = () => {
             customKeywords={customKeywords}
             setCustomKeywords={setCustomKeywords}
           />
-          <AdditionalSearches />
+          <PopularTwitterAccounts />
         </div>
       </div>
     </div>

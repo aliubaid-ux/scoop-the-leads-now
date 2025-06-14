@@ -5,64 +5,33 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import { ClickTooltip } from '@/components/ui/ClickTooltip';
+import { AdvancedJournalistRequest } from './AdvancedJournalistRequest';
 
 const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; tooltip?: string }> = {
   'Journalist Requests (Quality)': {
     hashtags: [
-      '#journorequest', '#journorequests', '#prrequest', '#mediarequest',
-      '#requestforsources', '#journalistrequest', '#callforsources', '#sourcewanted',
-      '#quoterequest', '#pressrequest', '#requestforcomment', '#needquotes',
-      '#needexperts'
-    ]
-  },
-  'Requests for Comment': {
-    hashtags: [
-      '#requestforcomment', '#callforcomment', '#expertcomment', '#commentrequest'
-    ]
-  },
-  'Source Calls by Topic': {
-    hashtags: [
-      '#expertsneeded', '#sourcealert', '#techjournorequest'
-      // Removed: '#sciencejourno', '#phdresearch', '#startupfounders', '#medialookout'
-      // These are either scientific/spam-prone or duplicative
+      '#journorequest', '#journorequests', '#prrequest', '#mediarequest', '#requestforsources', '#pressrequest'
     ]
   },
   'Podcast / Media Guest': {
     hashtags: [
-      '#podcastguest', '#guestinterview', '#interviewguest', '#guestneeded',
-      '#interviewopportunity', '#guestspot', '#liveinterview',
-      '#linkedinliveguest', '#twitterspaceguest'
+      '#podcastguest', '#guestinterview', '#guestneeded'
     ],
     caution: true,
-    tooltip: 'This group sometimes turns up self-promotion or unrelated podcast guest posts. Review results carefully!'
-  },
-  'Science & Academia Calls': {
-    hashtags: [
-      '#sciencerequest', '#academicresearch', '#professorrequest'
-      // Removed: '#scientistcallout', '#phdresearch' (both are spam-prone or duplicative)
-    ],
-    caution: true,
-    tooltip: 'This group is more specialized and can sometimes be used for research survey requests. Check relevancy!'
+    tooltip: 'This group sometimes turns up self-promotion or unrelated podcast guest posts.'
   },
   'Healthcare / Medical': {
     hashtags: [
-      '#healthcarerequest', '#doctorrequest', '#nurserequest', '#medicalexpert'
+      '#healthcarerequest', '#doctorrequest', '#medicalexpert'
     ]
   },
   'Tech & Startup Requests': {
     hashtags: [
-      '#startuplookout', '#techjournorequest', '#founderrequest', '#saasrequest', '#vcrequest'
-      // Removed: '#startupfounders' (prone to VC/promo spam)
+      '#startuplookout', '#techjournorequest', '#founderrequest'
     ],
     caution: true,
-    tooltip: 'Startups/VC tags can have some self-promotion. Use with negative keywords for best results.'
-  },
-  'Media Industry / Discovery': {
-    hashtags: [
-      '#journalist', '#editorialrequest', '#freelancejournalist', '#mediarelations'
-      // Removed: '#haroreplacement' (often spammy)
-    ]
-  },
+    tooltip: 'Some startup/VC tags attract self-promotion. Use with negative keywords.'
+  }
 };
 
 interface HashtagSelectorProps {
@@ -109,12 +78,14 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
   const anySelected = (groupHashtags: string[]) =>
     groupHashtags.some(tag => selectedHashtags.includes(tag));
 
-  // --- New: Group-specific Twitter search
   const buildGroupSearchUrl = (tags: string[]) => {
     if (!tags.length) return "#";
     let query = tags.length > 1 ? `(${tags.join(' OR ')})` : tags[0];
     return `https://twitter.com/search?q=${encodeURIComponent(query)}&f=live`;
   };
+
+  // Only show the advanced searches under the first group
+  const groupEntries = Object.entries(HASHTAG_GROUPS);
 
   return (
     <Card className="shadow-lg border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm">
@@ -135,8 +106,8 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
             <ClickTooltip
               content={
                 <span className="text-xs text-gray-600">
-                  Tip: To filter out spammy/self-promo results, add negative keywords in your custom search&nbsp;
-                  (e.g. <b>-SEO -guestpost -contentmarketing</b>) in the search builder.
+                  Tip: To filter out spammy/self-promo results, add negative keywords in your custom search
+                  (e.g. <b>-SEO -guestpost</b>) in the search builder.
                 </span>
               }
               className="max-w-xs"
@@ -151,8 +122,8 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
           Selected: {selectedHashtags.length} hashtags
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {Object.entries(HASHTAG_GROUPS).map(([groupName, { hashtags, caution, tooltip }]) => {
+      <CardContent className="space-y-6">
+        {groupEntries.map(([groupName, { hashtags, caution, tooltip }], idx) => {
           const groupSelected = hashtags.filter(tag => selectedHashtags.includes(tag));
           const hasGroupSelection = groupSelected.length > 0;
 
@@ -236,7 +207,6 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
                   </div>
                 )}
               </div>
-              {/* Group search action: show if this group has any selection */}
               {hasGroupSelection && (
                 <div className="flex justify-end mt-4">
                   <a
@@ -252,6 +222,12 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
                       Open Twitter Search for <span className="font-semibold ml-1">{groupName}</span>
                     </Button>
                   </a>
+                </div>
+              )}
+              {/* Show the AdvancedJournalistRequest after the primary group */}
+              {idx === 0 && (
+                <div className="mt-8">
+                  <AdvancedJournalistRequest />
                 </div>
               )}
             </div>
