@@ -55,9 +55,11 @@ const Index = () => {
           />
         </div>
       </div>
-      {/* Social Sharing Panel at bottom, smaller */}
+      {/* Social Sharing Panel at bottom, now same width as main sections */}
       <div className="w-full mt-10 pb-5 flex justify-center">
-        <SocialSharePanel />
+        <div className="w-full max-w-2xl">
+          <SocialSharePanel />
+        </div>
       </div>
     </div>
   );
