@@ -26,7 +26,7 @@ export function AdvancedJournalistRequest() {
   const [expanded, setExpanded] = useState(true); // expanded by default
 
   return (
-    <Card className="shadow-md border bg-white dark:bg-gray-950 max-w-2xl mx-auto my-4 transition-colors duration-200">
+    <Card className="shadow-md border bg-white dark:bg-gray-950 max-w-2xl mx-auto my-2 transition-colors duration-200">
       <CardHeader
         onClick={() => setExpanded((v) => !v)}
         className="pb-2 cursor-pointer flex items-center gap-2 select-none hover:bg-blue-50/60 dark:hover:bg-blue-950/25 transition rounded-t"

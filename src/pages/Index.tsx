@@ -37,16 +37,16 @@ const Index = () => {
       <div className="px-0 py-8 w-full max-w-screen-2xl mx-auto">
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-        {/* Journalist Search Tools section right below the header */}
+        {/* Instead of duplicate heading, just 'Start here' then dropdown */}
         <div className="flex flex-col gap-2 mt-2 w-full items-center">
-          <h2 className="text-lg font-semibold text-indigo-700 dark:text-indigo-200 text-center mb-2">Journalist Search Tools</h2>
+          <h2 className="text-lg font-semibold text-indigo-700 dark:text-indigo-200 text-center mb-2">Start here</h2>
           <div className="w-full max-w-2xl">
             <AdvancedJournalistRequest />
           </div>
         </div>
 
         {/* Social Sharing + Email Signup Panel */}
-        <div className="flex flex-col gap-6 mt-6 w-full">
+        <div className="flex flex-col gap-6 mt-6 w-full items-center">
           <SocialSharePanel />
           <EmailSignup />
         </div>
