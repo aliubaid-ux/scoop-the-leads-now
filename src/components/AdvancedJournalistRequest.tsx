@@ -1,6 +1,7 @@
 
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const advSearches = [
@@ -22,11 +23,23 @@ const advSearches = [
 ];
 
 export function AdvancedJournalistRequest() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Card className="shadow border-0 bg-slate-50/80 dark:bg-gray-900/75 backdrop-blur max-w-2xl mx-auto">
-      <CardHeader className="pb-2">
+      <CardHeader
+        onClick={() => setExpanded((v) => !v)}
+        className="pb-2 cursor-pointer flex items-center gap-2 select-none hover:bg-blue-50/70 dark:hover:bg-blue-950/30 transition rounded-t"
+        style={{ userSelect: "none" }}
+        aria-expanded={expanded}
+      >
+        {expanded ? (
+          <ChevronUp className="h-5 w-5 text-blue-500 dark:text-blue-300 mr-1" />
+        ) : (
+          <ChevronDown className="h-5 w-5 text-blue-500 dark:text-blue-300 mr-1" />
+        )}
         <div className="flex items-start gap-2">
-          <ExternalLink className="h-5 w-5 mt-0.5 text-blue-600 dark:text-blue-300" />
+          <ExternalLink className="h-5 w-5 mt-0.5 text-blue-600 dark:text-blue-300 flex-shrink-0" />
           <div>
             <CardTitle className="text-base font-semibold text-gray-800 dark:text-gray-100">
               Advanced Journalist Request
@@ -37,29 +50,33 @@ export function AdvancedJournalistRequest() {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-0 p-0">
-        {advSearches.map((search, i) => (
-          <div
-            key={search.label}
-            className="px-6 py-4 flex flex-col gap-1 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition"
-          >
-            <a
-              href={search.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-base font-medium text-blue-700 dark:text-blue-300 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 rounded"
-            >
-              {search.label}
-              <ExternalLink className="h-4 w-4 ml-1" />
-            </a>
-            <span className="text-xs text-gray-600 dark:text-gray-400">
-              {search.description}
-            </span>
-            {i < advSearches.length - 1 && (
-              <Separator className="my-4" />
-            )}
+      <CardContent className={`p-0 overflow-hidden transition-all duration-300 ${expanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}>
+        {expanded && (
+          <div>
+            {advSearches.map((search, i) => (
+              <div
+                key={search.label}
+                className="px-6 py-4 flex flex-col gap-1 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition"
+              >
+                <a
+                  href={search.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-base font-medium text-blue-700 dark:text-blue-300 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 rounded"
+                >
+                  {search.label}
+                  <ExternalLink className="h-4 w-4 ml-1" />
+                </a>
+                <span className="text-xs text-gray-600 dark:text-gray-400">
+                  {search.description}
+                </span>
+                {i < advSearches.length - 1 && (
+                  <Separator className="my-4" />
+                )}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </CardContent>
     </Card>
   );
