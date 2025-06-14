@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import { ClickTooltip } from '@/components/ui/ClickTooltip';
 import { AdvancedJournalistRequest } from './AdvancedJournalistRequest';
 
-// Restore original complete set of hashtags for Journalist Requests group
+// Restore original complete set of hashtags for Journalist Requests group, now removing generic/spammy entries.
 const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; tooltip?: string }> = {
   'Journalist Requests': {
     hashtags: [
@@ -35,10 +35,8 @@ const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; to
       "#lookingforasource",
       "#freelancejournalist",
       "#editorsrequest",
-      "#newsdeskrequest",
-      "#request",        // found in real tweets
-      "#journo",         // short form, sometimes used
-      "#journalist"      // generic, but used in requests
+      "#newsdeskrequest"
+      // Removed: "#request", "#journo", "#journalist"
     ]
   },
   'Podcast / Media Guest': {
