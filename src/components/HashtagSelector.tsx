@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -14,11 +13,14 @@ const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; to
       "#journorequest",
       "#journorequests",
       "#prrequest",
+      "#prrequests",
       "#mediarequest",
+      "#mediarequests",
       "#requestforsources",
       "#pressrequest",
       "#urgentrequest",
       "#harorequest",
+      "#haro",
       "#journalistrequest",
       "#journalistrequests",
       "#reporterrequest",
@@ -26,12 +28,17 @@ const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; to
       "#sourcewanted",
       "#journoquery",
       "#mediaquery",
+      "#mediaqueryrequest",
       "#newrequest",
+      "#editorialrequest",
       "#workingonastory",
       "#lookingforasource",
       "#freelancejournalist",
       "#editorsrequest",
-      "#newsdeskrequest"
+      "#newsdeskrequest",
+      "#request",        // found in real tweets
+      "#journo",         // short form, sometimes used
+      "#journalist"      // generic, but used in requests
     ]
   },
   'Podcast / Media Guest': {
@@ -260,4 +267,3 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
 };
 
 // File is getting long. You should consider asking to refactor it!
-
