@@ -7,10 +7,31 @@ import { ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import { ClickTooltip } from '@/components/ui/ClickTooltip';
 import { AdvancedJournalistRequest } from './AdvancedJournalistRequest';
 
+// Restore original complete set of hashtags for Journalist Requests group
 const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; tooltip?: string }> = {
   'Journalist Requests': {
     hashtags: [
-      '#journorequest', '#journorequests', '#prrequest', '#mediarequest', '#requestforsources', '#pressrequest'
+      "#journorequest",
+      "#journorequests",
+      "#prrequest",
+      "#mediarequest",
+      "#requestforsources",
+      "#pressrequest",
+      "#urgentrequest",
+      "#harorequest",
+      "#journalistrequest",
+      "#journalistrequests",
+      "#reporterrequest",
+      "#sourcesneeded",
+      "#sourcewanted",
+      "#journoquery",
+      "#mediaquery",
+      "#newrequest",
+      "#workingonastory",
+      "#lookingforasource",
+      "#freelancejournalist",
+      "#editorsrequest",
+      "#newsdeskrequest"
     ]
   },
   'Podcast / Media Guest': {
@@ -239,3 +260,4 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
 };
 
 // File is getting long. You should consider asking to refactor it!
+
