@@ -66,7 +66,18 @@ export const NaturalLanguageSelector = ({ selectedPhrases, setSelectedPhrases }:
     setSelectedPhrases(newPhrases);
   };
 
+  const deselectAllInGroup = (phrases: string[]) => {
+    setSelectedPhrases(selectedPhrases.filter(p => !phrases.includes(p)));
+  };
+
   const clearAll = () => setSelectedPhrases([]);
+
+  // Helper: for buttons logic per group
+  const allSelected = (groupPhrases: string[]) =>
+    groupPhrases.every(phrase => selectedPhrases.includes(phrase));
+
+  const anySelected = (groupPhrases: string[]) =>
+    groupPhrases.some(phrase => selectedPhrases.includes(phrase));
 
   return (
     <Card className="shadow-lg border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm">
@@ -110,40 +121,63 @@ export const NaturalLanguageSelector = ({ selectedPhrases, setSelectedPhrases }:
             <div className="flex justify-between items-center mb-3">
               <Button
                 variant="ghost"
+                type="button"
+                aria-label={expandedGroups[cat] ? `Collapse ${cat}` : `Expand ${cat}`}
+                aria-expanded={!!expandedGroups[cat]}
                 onClick={() => toggleGroup(cat)}
-                className="flex items-center gap-2 p-0 h-auto font-medium text-gray-700 dark:text-gray-300"
+                className="flex items-center gap-2 p-0 h-auto font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-blue-100/50 dark:hover:bg-gray-600/30 cursor-pointer"
+                style={{ userSelect: "none" }}
               >
                 {expandedGroups[cat] ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 {cat}
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => selectAllInGroup(phrases)}
-                className="text-xs"
-              >
-                Select All
-              </Button>
-            </div>
-            {expandedGroups[cat] && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {phrases.map(phrase => (
-                  <div key={phrase} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={phrase}
-                      checked={selectedPhrases.includes(phrase)}
-                      onCheckedChange={() => togglePhrase(phrase)}
-                    />
-                    <label
-                      htmlFor={phrase}
-                      className="text-sm font-mono text-blue-700 dark:text-blue-400 cursor-pointer hover:text-blue-900 dark:hover:text-blue-200"
-                    >
-                      "{phrase}"
-                    </label>
-                  </div>
-                ))}
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => selectAllInGroup(phrases)}
+                  className="text-xs"
+                  disabled={allSelected(phrases)}
+                >
+                  Select All
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => deselectAllInGroup(phrases)}
+                  className="text-xs"
+                  disabled={!anySelected(phrases)}
+                  style={{ marginLeft: 4 }}
+                >
+                  Deselect All
+                </Button>
               </div>
-            )}
+            </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${expandedGroups[cat] ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}
+              aria-hidden={!expandedGroups[cat]}
+            >
+              {expandedGroups[cat] && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {phrases.map(phrase => (
+                    <div key={phrase} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={phrase}
+                        checked={selectedPhrases.includes(phrase)}
+                        onCheckedChange={() => togglePhrase(phrase)}
+                        aria-checked={selectedPhrases.includes(phrase)}
+                      />
+                      <label
+                        htmlFor={phrase}
+                        className="text-sm font-mono text-blue-700 dark:text-blue-400 cursor-pointer hover:text-blue-900 dark:hover:text-blue-200"
+                      >
+                        "{phrase}"
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </CardContent>
