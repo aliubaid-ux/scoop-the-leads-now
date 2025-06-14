@@ -3,36 +3,47 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-const HASHTAG_GROUPS = {
+// ======================
+// UPDATED HASHTAG GROUPS
+// ======================
+const HASHTAG_GROUPS: Record<string, string[]> = {
   'Journalist Requests': [
-    '#journorequest', '#journorequests', '#prrequest', '#mediarequest', '#requestforsources',
-    '#journalistrequest', '#helpareporter', '#sourcewanted', '#quoterequest', '#callforsources',
-    '#interviewrequest', '#expertsneeded', '#sourcealert', '#lookingforsources', '#pressrequest',
-    '#medialeads', '#urgentrequest', '#requestforcomment', '#needquotes', '#needexperts'
+    '#journorequest', '#journorequests', '#prrequest', '#mediarequest',
+    '#requestforsources', '#journalistrequest', '#helpareporter',
+    '#sourcewanted', '#quoterequest', '#callforsources', '#interviewrequest',
+    '#expertsneeded', '#sourcealert', '#pressrequest', '#urgentrequest',
+    '#requestforcomment', '#needquotes', '#needexperts'
   ],
-  'Podcast/Interview Invites': [
-    '#podcastguest', '#guestinterview', '#guestneeded', '#interviewguest', '#youtubeguest',
-    '#audioguest', '#videointerview', '#guestcallout', '#interviewopportunity', '#podcastinterview',
-    '#expertinterview', '#guestspot', '#liveinterview', '#instagramliveguest', '#twitterspaceguest',
-    '#linkedinliveguest'
+  'Podcast / Interview Guest Opportunities': [
+    '#podcastguest', '#guestinterview', '#guestneeded',
+    '#interviewguest', '#youtubeguest', '#guestcallout',
+    '#interviewopportunity', '#podcastinterview', '#expertinterview',
+    '#guestspot', '#liveinterview', '#twitterspaceguest', '#linkedinliveguest'
   ],
-  'Guest Posts & Content': [
-    '#guestpost', '#guestwriter', '#contributewriter', '#acceptingguestposts', '#writeforus',
-    '#submitarticle', '#guestblogger', '#contentcollab', '#blogsubmission', '#articlepitch',
-    '#pitchus', '#openforcontributions', '#submissionopen', '#opencallforwriters',
-    '#publishingopportunity', '#guestcontributor'
+  'Seeking Expert Opinions': [
+    '#expertopinion', '#expertinsight', '#callforexperts', '#lookingforexperts',
+    '#opinionwanted', '#thoughtleadercallout', '#commentrequest',
+    '#casestudyrequest', '#addyourvoice'
   ],
-  'Expert Opinions': [
-    '#casestudyrequest', '#expertopinion', '#expertinsight', '#callforexperts',
-    '#personalstoriesneeded', '#lookingforexperts', '#shareyourstory', '#opinionwanted',
-    '#thoughtleadercallout', '#callforcomment', '#addyourvoice', '#commentrequest'
+  'Personal Stories Requests': [
+    '#personalstoriesneeded', '#shareyourstory', '#storyrequest'
   ],
-  'Broad Discovery': [
-    '#journalist', '#editorialrequest', '#freelancejournalist', '#pitching', '#mediarelations',
-    '#haroreplacement', '#pitchme', '#lookingforguests', '#collabrequest', '#writerswanted',
-    '#expertsavailable'
+  'Media Discovery': [
+    '#journalist', '#editorialrequest', '#freelancejournalist', '#mediarelations',
+    '#haroreplacement'
+  ],
+  // New high-quality/curated categories
+  'Science & Academia Calls': [
+    '#sciencerequest', '#academicresearch', '#scientistcallout', '#phdresearch', '#professorrequest'
+  ],
+  'Healthcare / Medical': [
+    '#healthcarerequest', '#doctorrequest', '#nurserequest', '#medicalexpert'
+  ],
+  'Tech & Startup Requests': [
+    '#startuplookout', '#techjournorequest', '#startupfounders', '#founderrequest', '#saasrequest', '#vcrequest'
   ]
 };
 
@@ -81,14 +92,30 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
             Select Hashtag Groups
           </CardTitle>
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={clearAll}
               disabled={selectedHashtags.length === 0}
             >
               Clear All
             </Button>
+            {/* Info tooltip for using negative filtering */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button type="button" variant="ghost" size="icon" className="ml-1">
+                    <Info className="h-4 w-4 text-gray-400" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <span className="text-xs text-gray-600">
+                    Tip: To filter out spammy/self-promo results, add negative keywords in your custom search&nbsp;
+                    (e.g. <b>-SEO -guestpost -contentmarketing</b>) in the search builder.
+                  </span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -120,7 +147,7 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
                 Select All
               </Button>
             </div>
-            
+
             {expandedGroups[groupName] && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {hashtags.map((hashtag) => (
