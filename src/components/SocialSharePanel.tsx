@@ -44,21 +44,21 @@ export const SocialSharePanel = () => {
   };
 
   return (
-    <Card className="w-full max-w-xs mx-auto shadow border-0 bg-white/90 dark:bg-gray-800/70 backdrop-blur-sm p-0">
-      <CardHeader className="py-2 px-3">
-        <CardTitle className="flex flex-col items-center text-sm font-semibold text-gray-800 dark:text-gray-100 gap-1">
+    <Card className="w-full bg-white/90 dark:bg-gray-800/70 backdrop-blur-sm shadow-none border-0 p-0">
+      <CardHeader className="py-6 px-8 sm:px-10">
+        <CardTitle className="flex flex-col items-center text-base font-semibold text-gray-800 dark:text-gray-100 gap-1">
           <UserPlus2 className="h-4 w-4 text-indigo-500 mb-0" />
-          <span className="text-sm tracking-tight font-bold leading-tight text-center">
+          <span className="text-lg tracking-tight font-bold leading-tight text-center">
             Help Us Grow JournoScoop!
           </span>
         </CardTitle>
-        <p className="text-[11px] text-gray-600 dark:text-gray-300 mt-1 mb-0 text-center font-medium">
+        <p className="text-[12px] text-gray-600 dark:text-gray-300 mt-1 mb-0 text-center font-medium">
           <b>Share</b> this free tool with your network.<br />
-          <span className="text-[10px] text-blue-700 dark:text-blue-300 font-normal">(Early supporters leaderboard soon! 🚀)</span>
+          <span className="text-[11px] text-blue-700 dark:text-blue-300 font-normal">(Early supporters leaderboard soon! 🚀)</span>
         </p>
       </CardHeader>
-      <CardContent className="p-0 pt-1 pb-3 flex flex-col items-center">
-        <div className="flex flex-wrap gap-1 justify-center w-full items-center px-1">
+      <CardContent className="pt-0 pb-6 px-8 sm:px-10 flex flex-col items-center">
+        <div className="flex flex-wrap gap-2 justify-center w-full items-center">
           {SOCIAL_LINKS.map((item) => (
             <a
               key={item.label}
@@ -70,8 +70,8 @@ export const SocialSharePanel = () => {
             >
               <Button
                 variant="default"
-                className={`w-full min-w-[88px] h-7 justify-center ${item.color} font-semibold gap-1 shadow hover:scale-105 transition text-xs py-0`}
-                style={{ fontSize: "0.85rem" }}
+                className={`w-full min-w-[120px] h-8 justify-center ${item.color} font-semibold gap-1 shadow hover:scale-105 transition text-sm py-0`}
+                style={{ fontSize: "1rem" }}
               >
                 {item.icon}
                 {item.label}
@@ -80,10 +80,10 @@ export const SocialSharePanel = () => {
           ))}
           <Button
             variant="outline"
-            className="w-full sm:w-auto font-semibold gap-1 text-xs h-7 py-0 min-w-[88px] justify-center"
+            className="w-full sm:w-auto font-semibold gap-1 text-sm h-8 py-0 min-w-[120px] justify-center"
             onClick={handleCopy}
             aria-label="Copy sample share text"
-            style={{ fontSize: "0.85rem" }}
+            style={{ fontSize: "1rem" }}
           >
             {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
             {copied ? "Copied!" : "Copy Text"}
