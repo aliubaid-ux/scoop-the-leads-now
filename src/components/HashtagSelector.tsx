@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -6,71 +7,56 @@ import { ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import { ClickTooltip } from '@/components/ui/ClickTooltip';
 import { AdvancedJournalistRequest } from './AdvancedJournalistRequest';
 
-// Restore original complete set of hashtags for Journalist Requests group, now removing generic/spammy entries and adding plural forms where missing.
+// Expanded, more targeted hashtag groups
 const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; tooltip?: string }> = {
   'Journalist Requests': {
     hashtags: [
-      "#journorequest",
-      "#journorequests",
-      "#prrequest",
-      "#prrequests",
-      "#mediarequest",
-      "#mediarequests",
-      "#requestforsources",
-      "#requestforsourcess",  // plural
-      "#pressrequest",
-      "#pressrequests",       // plural
-      "#urgentrequest",
-      "#urgentrequests",      // plural
-      "#harorequest",
-      "#haro", // This is already a plural-like product name, left as is.
-      "#journalistrequest",
-      "#journalistrequests",
-      "#reporterrequest",
-      "#reporterrequests",    // plural
-      "#sourcesneeded",
-      "#sourcesneededs",      // plural (technically not natural, but for completeness)
-      "#sourcewanted",
-      "#sourcewanteds",       // plural (more natural: "#sourceswanted")
-      "#sourceswanted",       // added better plural
-      "#journoquery",
-      "#journoqueries",       // plural
-      "#mediaquery",
-      "#mediaqueries",        // plural
-      "#mediaqueryrequest",
-      "#mediaqueryrequests",  // plural
-      "#newrequest",
-      "#newrequests",         // plural
-      "#editorialrequest",
-      "#editorialrequests",   // plural
-      "#workingonastory",
-      "#workingonastories",   // plural
-      "#lookingforasource",
-      "#lookingforasources",  // plural
-      "#freelancejournalist",
-      "#freelancejournalists", // plural
-      "#editorsrequest",
-      "#editorsrequests",     // plural
-      "#newsdeskrequest",
-      "#newsdeskrequests"     // plural
-      // Removed: "#request", "#journo", "#journalist"
+      "#journorequest", "#journorequests",
+      "#prrequest", "#prrequests",
+      "#mediarequest", "#mediarequests",
+      "#requestforsources", "#requestforsourcess",
+      "#pressrequest", "#pressrequests",
+      "#urgentrequest", "#urgentrequests",
+      "#harorequest", "#haro",
+      "#journalistrequest", "#journalistrequests",
+      "#reporterrequest", "#reporterrequests",
+      "#sourcesneeded", "#sourcesneededs",
+      "#sourcewanted", "#sourcewanteds", "#sourceswanted",
+      "#journoquery", "#journoqueries",
+      "#mediaquery", "#mediaqueries",
+      "#mediaqueryrequest", "#mediaqueryrequests",
+      "#newrequest", "#newrequests",
+      "#editorialrequest", "#editorialrequests",
+      "#workingonastory", "#workingonastories",
+      "#lookingforasource", "#lookingforasources",
+      "#freelancejournalist", "#freelancejournalists",
+      "#editorsrequest", "#editorsrequests",
+      "#newsdeskrequest", "#newsdeskrequests"
     ]
   },
   'Podcast / Media Guest': {
     hashtags: [
-      '#podcastguest', '#guestinterview', '#guestneeded'
+      "#podcastguest", "#guestneeded", "#guestinterview", "#podcastinterview",
+      "#podcastcallout", "#podcasthost", "#interviewrequest", "#featureme",
+      "#podcastexpert", "#seekingguest", "#findmypodcastguest"
     ],
     caution: true,
     tooltip: 'This group sometimes turns up self-promotion or unrelated podcast guest posts.'
   },
   'Healthcare / Medical': {
     hashtags: [
-      '#healthcarerequest', '#doctorrequest', '#medicalexpert'
+      "#healthcarerequest", "#doctorrequest", "#medicalexpert", "#medrequest",
+      "#doctorsneeded", "#healthcarejournalist", "#medicalvoices",
+      "#mediasources", "#healthsources", "#callfordoctors",
+      "#nurserequest", "#physicianrequest", "#publichealthrequest"
     ]
   },
   'Tech & Startup Requests': {
     hashtags: [
-      '#startuplookout', '#techjournorequest', '#founderrequest'
+      "#startuplookout", "#founderrequest", "#techjournorequest",
+      "#startupsources", "#vcquery", "#techmediarequest", "#saasrequest",
+      "#foundersneeded", "#fintechrequest", "#aiquery",
+      "#techinsights", "#startupscoop", "#productrequest", "#newtechexpert"
     ],
     caution: true,
     tooltip: 'Some startup/VC tags attract self-promotion. Use with negative keywords.'
@@ -127,7 +113,6 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
     return `https://twitter.com/search?q=${encodeURIComponent(query)}&f=live`;
   };
 
-  // The hashtag groups as sections
   const groupEntries = Object.entries(HASHTAG_GROUPS);
 
   return (
@@ -252,11 +237,12 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
                   )}
                 </div>
                 {hasGroupSelection && (
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-center mt-4">
                     <a
                       href={buildGroupSearchUrl(groupSelected)}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="w-full flex justify-center"
                     >
                       <Button
                         variant="default"
@@ -282,3 +268,4 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
 };
 
 // File is getting long. You should consider asking to refactor it!
+
