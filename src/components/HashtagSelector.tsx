@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import { ClickTooltip } from '@/components/ui/ClickTooltip';
 import { AdvancedJournalistRequest } from './AdvancedJournalistRequest';
 
-// Restore original complete set of hashtags for Journalist Requests group, now removing generic/spammy entries.
+// Restore original complete set of hashtags for Journalist Requests group, now removing generic/spammy entries and adding plural forms where missing.
 const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; tooltip?: string }> = {
   'Journalist Requests': {
     hashtags: [
@@ -17,25 +17,42 @@ const HASHTAG_GROUPS: Record<string, { hashtags: string[]; caution?: boolean; to
       "#mediarequest",
       "#mediarequests",
       "#requestforsources",
+      "#requestforsourcess",  // plural
       "#pressrequest",
+      "#pressrequests",       // plural
       "#urgentrequest",
+      "#urgentrequests",      // plural
       "#harorequest",
-      "#haro",
+      "#haro", // This is already a plural-like product name, left as is.
       "#journalistrequest",
       "#journalistrequests",
       "#reporterrequest",
+      "#reporterrequests",    // plural
       "#sourcesneeded",
+      "#sourcesneededs",      // plural (technically not natural, but for completeness)
       "#sourcewanted",
+      "#sourcewanteds",       // plural (more natural: "#sourceswanted")
+      "#sourceswanted",       // added better plural
       "#journoquery",
+      "#journoqueries",       // plural
       "#mediaquery",
+      "#mediaqueries",        // plural
       "#mediaqueryrequest",
+      "#mediaqueryrequests",  // plural
       "#newrequest",
+      "#newrequests",         // plural
       "#editorialrequest",
+      "#editorialrequests",   // plural
       "#workingonastory",
+      "#workingonastories",   // plural
       "#lookingforasource",
+      "#lookingforasources",  // plural
       "#freelancejournalist",
+      "#freelancejournalists", // plural
       "#editorsrequest",
-      "#newsdeskrequest"
+      "#editorsrequests",     // plural
+      "#newsdeskrequest",
+      "#newsdeskrequests"     // plural
       // Removed: "#request", "#journo", "#journalist"
     ]
   },
