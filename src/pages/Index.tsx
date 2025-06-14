@@ -5,7 +5,6 @@ import { HashtagSelector } from '../components/HashtagSelector';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
 import { AdvancedJournalistRequest } from '../components/AdvancedJournalistRequest';
 import { SocialSharePanel } from "../components/SocialSharePanel";
-import { EmailSignup } from "../components/EmailSignup";
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -33,8 +32,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 w-full">
-      <div className="px-0 py-8 w-full max-w-screen-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 w-full flex flex-col min-h-screen">
+      <div className="px-0 py-8 w-full max-w-screen-2xl mx-auto flex-1 flex flex-col">
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
         {/* Instead of duplicate heading, just 'Start here' then dropdown */}
@@ -43,12 +42,6 @@ const Index = () => {
           <div className="w-full max-w-2xl">
             <AdvancedJournalistRequest />
           </div>
-        </div>
-
-        {/* Social Sharing + Email Signup Panel */}
-        <div className="flex flex-col gap-6 mt-6 w-full items-center">
-          <SocialSharePanel />
-          <EmailSignup />
         </div>
 
         <div className="flex flex-col gap-8 mt-8 w-full">
@@ -62,8 +55,13 @@ const Index = () => {
           />
         </div>
       </div>
+      {/* Social Sharing Panel at bottom, smaller */}
+      <div className="w-full mt-10 pb-5 flex justify-center">
+        <SocialSharePanel />
+      </div>
     </div>
   );
 };
 
 export default Index;
+
