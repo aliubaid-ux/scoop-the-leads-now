@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
@@ -37,8 +38,11 @@ const Index = () => {
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
         {/* Journalist Search Tools section right below the header */}
-        <div className="flex flex-col gap-8 mt-4 w-full">
-          <AdvancedJournalistRequest />
+        <div className="flex flex-col gap-2 mt-2 w-full items-center">
+          <h2 className="text-lg font-semibold text-indigo-700 dark:text-indigo-200 text-center mb-2">Journalist Search Tools</h2>
+          <div className="w-full max-w-2xl">
+            <AdvancedJournalistRequest />
+          </div>
         </div>
 
         {/* Social Sharing + Email Signup Panel */}
@@ -56,7 +60,6 @@ const Index = () => {
             selectedPhrases={selectedPhrases}
             setSelectedPhrases={setSelectedPhrases}
           />
-          {/* Removed SearchBuilder and PopularTwitterAccounts */}
         </div>
       </div>
     </div>
