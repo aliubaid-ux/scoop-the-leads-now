@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -259,13 +258,8 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
           })}
         </CardContent>
       </Card>
-      {/* Place the Journalist Search Tools dropdown as its own section */}
-      <div>
-        <AdvancedJournalistRequest />
-      </div>
     </div>
   );
 };
 
 // File is getting long. You should consider asking to refactor it!
-
