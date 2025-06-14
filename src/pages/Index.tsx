@@ -2,10 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
-import { SearchBuilder } from '../components/SearchBuilder';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
-import { PopularTwitterAccounts } from '../components/PopularTwitterAccounts';
 import { AdvancedJournalistRequest } from '../components/AdvancedJournalistRequest';
+// Removed PopularTwitterAccounts and SearchBuilder imports
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -37,7 +36,7 @@ const Index = () => {
       <div className="px-0 py-8 w-full max-w-screen-2xl mx-auto">
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-        {/* Place Journalist Search Tools right below the header */}
+        {/* Journalist Search Tools section right below the header */}
         <div className="flex flex-col gap-8 mt-4 w-full">
           <AdvancedJournalistRequest />
         </div>
@@ -51,13 +50,7 @@ const Index = () => {
             selectedPhrases={selectedPhrases}
             setSelectedPhrases={setSelectedPhrases}
           />
-          <SearchBuilder 
-            selectedHashtags={selectedHashtags}
-            selectedPhrases={selectedPhrases}
-            customKeywords={customKeywords}
-            setCustomKeywords={setCustomKeywords}
-          />
-          <PopularTwitterAccounts />
+          {/* Removed SearchBuilder and PopularTwitterAccounts */}
         </div>
       </div>
     </div>
