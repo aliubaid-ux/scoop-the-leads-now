@@ -1,6 +1,7 @@
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { ExternalLink } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const advSearches = [
   {
@@ -22,28 +23,41 @@ const advSearches = [
 
 export function AdvancedJournalistRequest() {
   return (
-    <Card className="shadow border-0 mb-3 bg-slate-50/80 dark:bg-gray-900/75 backdrop-blur max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
-          <ExternalLink className="h-5 w-5" />
-          Advanced Journalist Request
-        </CardTitle>
+    <Card className="shadow border-0 bg-slate-50/80 dark:bg-gray-900/75 backdrop-blur max-w-2xl mx-auto">
+      <CardHeader className="pb-2">
+        <div className="flex items-start gap-2">
+          <ExternalLink className="h-5 w-5 mt-0.5 text-blue-600 dark:text-blue-300" />
+          <div>
+            <CardTitle className="text-base font-semibold text-gray-800 dark:text-gray-100">
+              Advanced Journalist Request
+            </CardTitle>
+            <CardDescription className="text-xs max-w-md text-gray-600 dark:text-gray-400">
+              Power searches and curated journalist feeds. Use these links for specialized media requests and more in-depth query results.
+            </CardDescription>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {advSearches.map(search => (
-          <div key={search.label} className="space-y-1">
+      <CardContent className="space-y-0 p-0">
+        {advSearches.map((search, i) => (
+          <div
+            key={search.label}
+            className="px-6 py-4 flex flex-col gap-1 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition"
+          >
             <a
               href={search.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-blue-600 dark:text-blue-300 font-medium hover:underline transition"
+              className="inline-flex items-center gap-1 text-base font-medium text-blue-700 dark:text-blue-300 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 rounded"
             >
               {search.label}
-              <ExternalLink className="h-4 w-4 ml-2" />
+              <ExternalLink className="h-4 w-4 ml-1" />
             </a>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
+            <span className="text-xs text-gray-600 dark:text-gray-400">
               {search.description}
-            </p>
+            </span>
+            {i < advSearches.length - 1 && (
+              <Separator className="my-4" />
+            )}
           </div>
         ))}
       </CardContent>
