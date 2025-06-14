@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { ClickTooltip } from '@/components/ui/ClickTooltip';
 
 // ===============================
 // CURATED HIGH-QUALITY HASHTAG GROUPS (NO SPAM)
@@ -130,21 +130,19 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
               Clear All
             </Button>
             {/* Info tooltip for using negative filtering */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button type="button" variant="ghost" size="icon" className="ml-1">
-                    <Info className="h-4 w-4 text-gray-400" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <span className="text-xs text-gray-600">
-                    Tip: To filter out spammy/self-promo results, add negative keywords in your custom search&nbsp;
-                    (e.g. <b>-SEO -guestpost -contentmarketing</b>) in the search builder.
-                  </span>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <ClickTooltip
+              content={
+                <span className="text-xs text-gray-600">
+                  Tip: To filter out spammy/self-promo results, add negative keywords in your custom search&nbsp;
+                  (e.g. <b>-SEO -guestpost -contentmarketing</b>) in the search builder.
+                </span>
+              }
+              className="max-w-xs"
+            >
+              <Button type="button" variant="ghost" size="icon" className="ml-1">
+                <Info className="h-4 w-4 text-gray-400" />
+              </Button>
+            </ClickTooltip>
           </div>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -173,18 +171,16 @@ export const HashtagSelector = ({ selectedHashtags, setSelectedHashtags }: Hasht
                   {groupName}
                 </Button>
                 {caution && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="ml-1 align-middle inline-flex">
-                          <Info className="h-4 w-4 text-yellow-500" aria-label="More info" />
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <span className="text-xs text-gray-600">{tooltip}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ClickTooltip
+                    content={
+                      <span className="text-xs text-gray-600">{tooltip}</span>
+                    }
+                    className="max-w-xs"
+                  >
+                    <span className="ml-1 align-middle inline-flex">
+                      <Info className="h-4 w-4 text-yellow-500" aria-label="More info" />
+                    </span>
+                  </ClickTooltip>
                 )}
               </div>
               <div className="flex gap-2">

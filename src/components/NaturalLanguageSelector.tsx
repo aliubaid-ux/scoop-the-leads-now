@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+import { ClickTooltip } from "@/components/ui/ClickTooltip";
 
 const CATEGORY_PHRASES: Record<string, string[]> = {
   "Journalist Requests": [
@@ -113,20 +113,18 @@ export const NaturalLanguageSelector = ({ selectedPhrases, setSelectedPhrases }:
             >
               Clear All
             </Button>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button type="button" variant="ghost" size="icon" className="ml-1">
-                    <Info className="h-4 w-4 text-gray-400" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <span className="text-xs text-gray-600">
-                    Add common request phrases to your search for broader coverage (e.g. "looking for sources", "guest needed").
-                  </span>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <ClickTooltip
+              content={
+                <span className="text-xs text-gray-600">
+                  Add common request phrases to your search for broader coverage (e.g. "looking for sources", "guest needed").
+                </span>
+              }
+              className="max-w-xs"
+            >
+              <Button type="button" variant="ghost" size="icon" className="ml-1">
+                <Info className="h-4 w-4 text-gray-400" />
+              </Button>
+            </ClickTooltip>
           </div>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-400">
