@@ -4,6 +4,7 @@ import { Header } from '../components/Header';
 import { HashtagSelector } from '../components/HashtagSelector';
 import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
 import { AdvancedJournalistRequest } from '../components/AdvancedJournalistRequest';
+import { LinkedInPROpportunities } from '../components/LinkedInPROpportunities';
 import { SocialSharePanel } from "../components/SocialSharePanel";
 
 const Index = () => {
@@ -42,6 +43,9 @@ const Index = () => {
           <div className="w-full max-w-2xl">
             <AdvancedJournalistRequest />
           </div>
+          <div className="w-full max-w-2xl">
+            <LinkedInPROpportunities />
+          </div>
         </div>
 
         <div className="flex flex-col gap-8 mt-8 w-full">
@@ -66,4 +70,3 @@ const Index = () => {
 };
 
 export default Index;
-
