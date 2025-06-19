@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -23,6 +24,19 @@ const Auth = () => {
   
   // Get the active tab from URL params or default to signin
   const activeTab = searchParams.get('tab') || 'signin';
+  const isConfirmed = searchParams.get('confirmed') === 'true';
+
+  // Show confirmation message if user just confirmed email
+  useEffect(() => {
+    if (isConfirmed) {
+      toast({
+        title: "Email Confirmed! 🎉",
+        description: "Your account has been verified. You can now sign in.",
+      });
+      // Clean up the URL
+      setSearchParams({ tab: 'signin' });
+    }
+  }, [isConfirmed, toast, setSearchParams]);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -89,9 +103,11 @@ const Auth = () => {
       });
     } else {
       toast({
-        title: "Account Created!",
-        description: "Please check your email to verify your account.",
+        title: "Account Created! 🎉",
+        description: "Please check your email to confirm your account. We've sent you a custom confirmation email with everything you need to get started.",
       });
+      // Switch to signin tab after successful signup
+      handleTabChange('signin');
     }
     
     setLoading(false);
@@ -112,7 +128,10 @@ const Auth = () => {
         <div className="text-center mb-8">
           <Logo />
           <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Sign in to access your personalized PR dashboard
+            {isConfirmed 
+              ? "Your email has been confirmed! Please sign in below." 
+              : "Sign in to access your personalized PR dashboard"
+            }
           </p>
         </div>
 
@@ -146,6 +165,13 @@ const Auth = () => {
                 </TabsList>
                 
                 <TabsContent value="signin">
+                  {isConfirmed && (
+                    <Alert className="mb-4">
+                      <AlertDescription>
+                        🎉 Your email has been confirmed! You can now sign in with your credentials.
+                      </AlertDescription>
+                    </Alert>
+                  )}
                   <form onSubmit={handleSignIn} className="space-y-4">
                     <div>
                       <Input
@@ -219,6 +245,9 @@ const Auth = () => {
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? 'Creating account...' : 'Create Account'}
                     </Button>
+                    <div className="text-center text-sm text-gray-500">
+                      <p>We'll send you a custom confirmation email to verify your account.</p>
+                    </div>
                   </form>
                 </TabsContent>
                 

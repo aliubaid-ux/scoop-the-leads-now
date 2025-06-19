@@ -47,6 +47,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Function to send custom signup confirmation email
+  const sendSignupConfirmation = async (email: string) => {
+    try {
+      // Generate a confirmation URL that points to our app
+      const baseUrl = window.location.origin;
+      const confirmationUrl = `${baseUrl}/auth?tab=signin&confirmed=true`;
+      
+      const { error } = await supabase.functions.invoke('send-signup-confirmation', {
+        body: { 
+          email,
+          token: 'CONFIRM_EMAIL',
+          confirmationUrl
+        }
+      });
+      
+      if (error) {
+        console.error('Failed to send signup confirmation:', error);
+      } else {
+        console.log('Signup confirmation sent successfully to:', email);
+      }
+    } catch (error) {
+      console.error('Error sending signup confirmation:', error);
+    }
+  };
+
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -56,10 +81,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
 
-        // Send welcome email on sign in for new users
-        // We'll use a different approach to detect new signups
-        if (session?.user && !session.user.email_confirmed_at) {
-          console.log('New user detected, sending welcome email...');
+        // Send welcome email on successful email confirmation
+        if (event === 'SIGNED_IN' && session?.user?.email_confirmed_at) {
+          console.log('User confirmed email, sending welcome email...');
           setTimeout(() => {
             sendWelcomeEmail(session.user.email!, session.user.user_metadata?.name);
           }, 1000);
@@ -79,15 +103,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
+    // Use the proper app URL for redirect
+    const baseUrl = window.location.origin;
+    const redirectUrl = `${baseUrl}/auth?tab=signin&confirmed=true`;
     
-    const { error } = await supabase.auth.signUp({
+    console.log('Signing up with redirect URL:', redirectUrl);
+    
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl
       }
     });
+
+    // Send our custom signup confirmation email
+    if (!error && data.user && !data.user.email_confirmed_at) {
+      console.log('Sending custom signup confirmation email...');
+      setTimeout(() => {
+        sendSignupConfirmation(email);
+      }, 500);
+    }
 
     return { error };
   };
