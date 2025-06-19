@@ -56,9 +56,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
 
-        // Send welcome email on signup confirmation
-        if (event === 'SIGNED_UP' && session?.user) {
-          console.log('User signed up, sending welcome email...');
+        // Send welcome email on sign in for new users
+        // We'll use a different approach to detect new signups
+        if (session?.user && !session.user.email_confirmed_at) {
+          console.log('New user detected, sending welcome email...');
           setTimeout(() => {
             sendWelcomeEmail(session.user.email!, session.user.user_metadata?.name);
           }, 1000);
