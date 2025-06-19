@@ -27,14 +27,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Function to send welcome email
+  const sendWelcomeEmail = async (email: string, name?: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('send-welcome-email', {
+        body: { 
+          email, 
+          name: name || email.split('@')[0] 
+        }
+      });
+      
+      if (error) {
+        console.error('Failed to send welcome email:', error);
+      } else {
+        console.log('Welcome email sent successfully to:', email);
+      }
+    } catch (error) {
+      console.error('Error sending welcome email:', error);
+    }
+  };
+
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         console.log('Auth state changed:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // Send welcome email on signup confirmation
+        if (event === 'SIGNED_UP' && session?.user) {
+          console.log('User signed up, sending welcome email...');
+          setTimeout(() => {
+            sendWelcomeEmail(session.user.email!, session.user.user_metadata?.name);
+          }, 1000);
+        }
       }
     );
 
