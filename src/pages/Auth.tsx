@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -17,7 +16,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,9 +25,22 @@ const Auth = () => {
   const activeTab = searchParams.get('tab') || 'signin';
 
   // Redirect if already logged in
-  if (user) {
-    navigate('/');
-    return null;
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
+  // Show loading while checking auth status
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   // Handle tab changes by updating URL
@@ -100,7 +112,7 @@ const Auth = () => {
         <div className="text-center mb-8">
           <Logo />
           <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Access your personalized PR dashboard
+            Sign in to access your personalized PR dashboard
           </p>
         </div>
 
@@ -109,12 +121,12 @@ const Auth = () => {
             <CardTitle className="text-center text-xl font-bold text-gray-900 dark:text-gray-100">
               {activeTab === 'reset' ? 'Reset Password' : 
                activeTab === 'update-password' ? 'Set New Password' :
-               'Get Started with JournoScoop'}
+               'Welcome to JournoScoop'}
             </CardTitle>
             <CardDescription className="text-center">
               {activeTab === 'reset' ? 'Enter your email to receive reset instructions' :
                activeTab === 'update-password' ? 'Create your new password' :
-               'Sign in to your account or create a new one'}
+               'Authentication required to access the tool'}
             </CardDescription>
           </CardHeader>
           <CardContent>
