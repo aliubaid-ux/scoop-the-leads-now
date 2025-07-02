@@ -6,6 +6,7 @@ import { NaturalLanguageSelector } from '../components/NaturalLanguageSelector';
 import { AdvancedJournalistRequest } from '../components/AdvancedJournalistRequest';
 import { LinkedInPROpportunities } from '../components/LinkedInPROpportunities';
 import { SocialSharePanel } from "../components/SocialSharePanel";
+import { FreemiumSearchBuilder } from '../components/FreemiumSearchBuilder';
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -56,6 +57,12 @@ const Index = () => {
           <NaturalLanguageSelector
             selectedPhrases={selectedPhrases}
             setSelectedPhrases={setSelectedPhrases}
+          />
+          <FreemiumSearchBuilder
+            selectedHashtags={selectedHashtags}
+            selectedPhrases={selectedPhrases}
+            customKeywords={customKeywords}
+            setCustomKeywords={setCustomKeywords}
           />
         </div>
       </div>

@@ -12,13 +12,15 @@ interface SearchBuilderProps {
   selectedPhrases: string[];
   customKeywords: string;
   setCustomKeywords: (keywords: string) => void;
+  onSearchAttempt?: () => Promise<boolean>;
 }
 
 export const SearchBuilder = ({
   selectedHashtags,
   selectedPhrases,
   customKeywords,
-  setCustomKeywords
+  setCustomKeywords,
+  onSearchAttempt
 }: SearchBuilderProps) => {
   const [useOR, setUseOR] = useState(true);
   const [includeLive, setIncludeLive] = useState(true);
@@ -62,7 +64,13 @@ export const SearchBuilder = ({
     return url;
   };
 
-  const openSearch = () => {
+  const openSearch = async () => {
+    // Check usage limits if callback is provided
+    if (onSearchAttempt) {
+      const canProceed = await onSearchAttempt();
+      if (!canProceed) return;
+    }
+    
     const url = buildSearchURL();
     if (url) {
       window.open(url, '_blank');
